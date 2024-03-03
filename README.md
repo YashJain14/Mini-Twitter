@@ -55,10 +55,6 @@ This command will start the uvicorn server with auto-reload enabled. The server 
 - `templates/index.html`: HTML template for the user interface.
 - `index.py`: Main FastAPI application file.
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a pull request or open an issue for any bugs, feature requests, or suggestions.
-
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
