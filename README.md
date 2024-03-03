@@ -9,7 +9,7 @@ Before running the application, make sure you have Python installed on your syst
 1. Clone the repository:
 
 ```
-git clone <repository_url>
+git clone https://github.com/YashJain14/Mini-Twitter
 ```
 
 2. Install the project dependencies:
