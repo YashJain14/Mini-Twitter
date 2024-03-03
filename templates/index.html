@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Twitter</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4">
+        <div class="w-full max-w-xl mx-auto pt-6">
+            <div class="bg-white rounded-lg p-4 shadow">
+                <h1 class="text-xl font-bold text-gray-900">Tweet Something</h1>
+                <form method="post" action="/" class="space-y-4 mt-4">
+                  <div>
+                    <label for="title" class="sr-only">Title</label>
+                    <input type="text" placeholder="What's happening?" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" id="title" name="title" required>
+                  </div>
+                  <div>
+                    <label for="desc" class="sr-only">Description</label>
+                    <textarea rows="3" placeholder="Tweet your reply" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" id="desc" name="desc" required></textarea>
+                  </div>
+                  <button type="submit" class="px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700">Tweet</button>
+                </form>
+            </div>
+            
+            <!-- Displaying tweets logic -->
+            <div class="mt-6">
+              {% if newDocs %}
+              <ul class="space-y-4">
+                  {% for item in newDocs %}
+                      <li class="bg-white rounded-lg p-4 shadow">
+                          <h3 class="font-bold text-gray-900">{{ item.title }}</h3>
+                          <p class="text-gray-700">{{ item.desc }}</p>
+                      </li>
+                  {% endfor %}
+              </ul>
+              {% else %}
+                  <p class="text-gray-500">No tweets to display</p>
+              {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
