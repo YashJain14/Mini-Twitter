@@ -5,41 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Twitter</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; }
+        .tweet-box { background-color: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .tweet-button:hover, .comment-button:hover { background-color: #1d9bf0; }
+        .comment-box { background-color: #f0f2f5; }
+        .hidden { display: none; }
+    </style>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto px-4">
-        <div class="w-full max-w-xl mx-auto pt-6">
-            <div class="bg-white rounded-lg p-4 shadow">
-                <h1 class="text-xl font-bold text-gray-900">Tweet Something</h1>
-                <form method="post" action="/" class="space-y-4 mt-4">
-                  <div>
-                    <label for="title" class="sr-only">Title</label>
-                    <input type="text" placeholder="What's happening?" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" id="title" name="title" required>
-                  </div>
-                  <div>
-                    <label for="desc" class="sr-only">Description</label>
-                    <textarea rows="3" placeholder="Tweet your reply" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" id="desc" name="desc" required></textarea>
-                  </div>
-                  <button type="submit" class="px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700">Tweet</button>
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto">
+            <div class="tweet-box p-4">
+                <h1 class="text-xl font-bold text-gray-900 mb-4">What's happening?</h1>
+                <form method="post" action="/" class="space-y-4">
+                    <input type="text" name="title" placeholder="Tweet title" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500" required>
+                    <textarea name="desc" rows="3" placeholder="Tweet your thoughts..." class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                    <button type="submit" class="tweet-button px-4 py-2 bg-blue-500 text-white font-bold rounded">Tweet</button>
                 </form>
             </div>
-            
-            <!-- Displaying tweets logic -->
-            <div class="mt-6">
-              {% if newDocs %}
-              <ul class="space-y-4">
-                  {% for item in newDocs %}
-                      <li class="bg-white rounded-lg p-4 shadow">
-                          <h3 class="font-bold text-gray-900">{{ item.title }}</h3>
-                          <p class="text-gray-700">{{ item.desc }}</p>
-                      </li>
-                  {% endfor %}
-              </ul>
-              {% else %}
-                  <p class="text-gray-500">No tweets to display</p>
-              {% endif %}
+            <div class="mt-8">
+                {% if newDocs %}
+                {% for item in newDocs|reverse %}
+                <div class="tweet-box p-4 my-4">
+                    <h3 class="font-bold text-gray-900">{{ item.title }}</h3>
+                    <p class="text-gray-700 my-2">{{ item.desc }}</p>
+                    <div class="comment-box p-2">
+                        <div>
+                          <h4 class="text-gray-900">Comments:</h4>
+                          {% for comment in item.comments %}
+                          <p>{{ comment.text }}</p>
+                          {% endfor %}
+                        </div>
+                        <button onclick="toggleCommentArea('comment-area-{{ item.id }}')" class="comment-button px-4 py-2 bg-blue-500 text-white rounded mt-2">Comment</button>
+                        <div id="comment-area-{{ item.id }}" class="hidden">
+                            <form method="post" action="/{{ item.id }}/comment" class="mt-4">
+                              <textarea name="text" placeholder="Write a comment..." class="block w-full mt-2 px-3 py-2 border rounded-md" required></textarea>
+                              <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 mt-2">Send</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="text-gray-500">No tweets to display</p>
+                {% endif %}
             </div>
         </div>
     </div>
+    <script>
+        function toggleCommentArea(id) {
+            var element = document.getElementById(id);
+            if (element) {
+                element.classList.toggle('hidden');
+            }
+        }
+    </script>
 </body>
 </html>
