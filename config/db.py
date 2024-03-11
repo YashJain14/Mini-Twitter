@@ -1,5 +1,13 @@
 from pymongo import MongoClient
 import certifi
-MONGO_URI = "mongodb+srv://----------------------.mongodb.net"
+from dotenv import load_dotenv
+import os
 
-conn = MongoClient(MONGO_URI,tlsCAFile=certifi.where())
+# Load environment variables from .env file
+load_dotenv()
+
+# Get the MongoDB URI from the environment
+MONGODB_URI = os.getenv("MONGODB_URI")
+
+# Connect to MongoDB
+conn = MongoClient(MONGODB_URI, tlsCAFile=certifi.where())
